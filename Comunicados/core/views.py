@@ -12,4 +12,4 @@ def comunicados(request):
 def form_valid(self):
         user = User.objects.get(username = self.request.user)
         Comunicado.objects.create(publicado_por = user)
-        return redirect(self.success_url)
+        return redirect(Comunicado)
