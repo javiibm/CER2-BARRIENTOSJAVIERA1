@@ -1,25 +1,15 @@
 from django.shortcuts import render
 from .models import Comunicado
+from django.contrib.auth.models import User
+from django.shortcuts import redirect
 
 # Create your views here.
 def comunicados(request):
     comunicados = Comunicado.objects.all
     return render(request, 'core/comunicados.html', {'comunicados':comunicados})
-#pendiente
-def nuevo_comunicado(request):
-    if request.POST:
-        titulo= request.POST['titulo']
-        c = Comunicado()
-        c.save()
-        return redirect(comunicado)
-    return render(request, 'core/nuevo_comunicado.html')
 
-def nuevo_usuario(request):
-    if request.POST:
-        nombre= request.POST['nombre']
-        apellido= request.POST['apellido']
-        email= request.POST['email']
-        d = Docente(nombre=nombre,apellido=apellido,email=email)
-        d.save()
-        return redirect(docentes)
-    return render(request, 'core/nuevo_docente.html')
+
+def form_valid(self):
+        user = User.objects.get(username = self.request.user)
+        Comunicado.objects.create(publicado_por = user)
+        return redirect(self.success_url)
